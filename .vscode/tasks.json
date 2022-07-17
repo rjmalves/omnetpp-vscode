@@ -1,0 +1,86 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Simulation",
+            "type": "shell",
+            "command": "/usr/bin/make",
+            "args": [
+                "MODE=release",
+                "all"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "env": {
+                    "PATH": "${config:inetDir}/src/inet:${config:inetDir}/src:${env:PATH}",
+                    "OMNETPP_ROOT": "${config:omnetppInstallDir}",
+                    "OMNETPP_IMAGE_PATH": "${config:omnetppInstallDir}/images",
+                    "OMNETPP_CONFIGFILE": "${config:omnetppInstallDir}/Makefile.inc"
+                },
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Simulation",
+            "type": "shell",
+            "command": "${config:omnetppInstallDir}/bin/opp_run",
+            "args": [
+                "-r",
+                "0",
+                "-m",
+                "-u",
+                "Cmdenv",
+                "-c",
+                "${config:simulationConfig}",
+                "-n",
+                ".",
+                "--image-path=${config:inetDir}/images",
+                "--ned-path=${config:inetDir}/src/inet",
+                "-l",
+                "${config:inetDir}/src/inet",
+                "omnetpp.ini"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "env": {
+                    "PATH": "${config:inetDir}/src/inet:${config:inetDir}/src:${env:PATH}",
+                    "OMNETPP_ROOT": "${config:omnetppInstallDir}/",
+                    "OMNETPP_IMAGE_PATH": "${config:omnetppInstallDir}/images"
+                },
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Collect Results",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/results.sh",
+            "args": [
+                "${config:omnetppInstallDir}"
+            ],
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/results"
+            }
+        },
+    ]
+}
