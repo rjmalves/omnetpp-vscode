@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# OMNeT++ Results
+**.csv
+**.sca
+**.vci
+**.vec
